@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Skribbles</title>
+<style>
+
+body{
+	margin:0;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	background:black;
+	color:lightblue;
+	font-family: arial;
+	font-size: 15px;
+	text-align: center;
+}
+h1{
+	font-family: verdana;
+	font-size: 40px;
+	text-decoration: underline;
+}
+main{
+	padding:20px;
+}
+
+#canvasBox{
+	width:500px;
+	height:500px;
+	margin:20px auto;
+	border:12px double lightblue;
+	border-radius: 8px;
+}
+
+#canvasBox canvas{
+	display:block;
+}
+
+button{
+	font-family:arial;
+	font-size:15px;
+	padding:10px 20px;
+	color:lightblue;
+	background:darkblue;
+	border:none;
+}
+
+button:hover {
+	background:blue;
+}
+
+button:focus-visible {
+	outline:3px solid orange;
+	outline-offset: 3px;
+}
+
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/p5@2.1.1/lib/p5.min.js"></script>
+
+</head>
+<body>
+	
+<main>
+	<h1>Skribble pad</h1>
+	<p>
+		Hold down the arrow keys to draw an image,<br> holding down more than one at the same time will move the line diagonally.
+	</p>
+
+	<div id = "canvasBox"></div>
+
+	<button id = "resetDrawing" type = "button">Restart</button>
+
+	<audio id = "pingsound" src = "sounds/ping.mp3" preload = "auto"></audio>
+
+
+</main>
+
+
+<script>
+
+/*
+Logic Steps & claude link
+1) page loads with a blank canvas box in the middle, with a small marker for the user to move
+2)the user can use arrow keys to move the lines round to make pages
+3)the reset button will wipe the box clean
+4) a ping noise will sound when the box is cleared
+Link:https://claude.ai/share/521825ce-8193-4ed4-bcc2-4e94cf8b4349
+*/	
+
+
+let y=50;
+let x=50;
+
+function setup() {
+  let canvas = createCanvas(500, 500);
+  canvas.parent('canvasBox');
+  background(50);
+  document.getElementById('resetDrawing').addEventListener("click",resetDrawing);
+}
+
+function draw() {
+  fill (255,40,40);
+  rect(x,y,5);
+  if (keyIsDown('ArrowLeft') === true){
+    x -= 1;  
+  }
+    if (keyIsDown('ArrowRight') === true){
+    x += 1;
+  }
+  if (keyIsDown('ArrowDown') === true){
+    y += 1;
+  }
+   if (keyIsDown('ArrowUp') === true){
+    y -= 1;
+  }
+
+x = constrain(x,0,width - 5);
+y = constrain(y,0,height - 5);
+
+}
+
+function resetDrawing() {
+	background(50);
+	x = 50;
+	y = 50;
+
+	const mySound = document.getElementById('pingsound');
+	mySound.currentTime = 0;
+	mySound.play();
+}
+
+
+
+</script>
+</body>
+</html>
